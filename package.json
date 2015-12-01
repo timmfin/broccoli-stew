@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "broccoli": "^1.0.0-beta.5",
-    "broccoli-test-helpers": "0.0.8",
+    "broccoli-test-helpers": "timmfin/broccoli-test-helpers#update-to-move-to-broc-v1-beta",
     "chai": "^1.10.0",
     "mocha": "^2.1.0",
     "sinon": "^1.12.2"
