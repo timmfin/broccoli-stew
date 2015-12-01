@@ -7,6 +7,8 @@ var helpers = require('broccoli-test-helpers');
 var makeTestHelper = helpers.makeTestHelper;
 var cleanupBuilders = helpers.cleanupBuilders;
 
+var UselessPlugin = require('./utils/useless-plugin');
+
 
 describe('afterBuild', function() {
   var emptyFixturePath = path.join(__dirname, 'fixtures', 'empty'),
@@ -25,12 +27,19 @@ describe('afterBuild', function() {
     spyFunc = sinon.spy();
   });
 
-  it('it called after the inputTree builds', function() {
+  it('it called after the inputNode builds (with string node)', function() {
     expect(spyFunc.callCount).to.equal(0);
 
     return afterBuild(emptyFixturePath, spyFunc).then(function(results) {
       expect(spyFunc.callCount).to.equal(1);
-      expect(spyFunc.calledWith(sinon.match.string)).to.be.true;
+    });
+  });
+
+  it('it called after the inputNode builds', function() {
+    expect(spyFunc.callCount).to.equal(0);
+
+    return afterBuild(new UselessPlugin(emptyFixturePath), spyFunc).then(function(results) {
+      expect(spyFunc.callCount).to.equal(1);
     });
   });
 });

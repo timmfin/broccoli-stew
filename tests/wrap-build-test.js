@@ -8,6 +8,9 @@ var makeTestHelper = helpers.makeTestHelper;
 var cleanupBuilders = helpers.cleanupBuilders;
 
 
+var UselessPlugin = require('./utils/useless-plugin');
+
+
 describe('wrapBuild', function() {
   var emptyFixturePath = path.join(__dirname, 'fixtures', 'empty'),
       beforeSpyFunc,
@@ -24,6 +27,7 @@ describe('wrapBuild', function() {
 
   beforeEach(function() {
     beforeSpyFunc = sinon.spy();
+    duringSpyFunc = sinon.spy();
     afterSpyFunc = sinon.spy();
   });
 
@@ -31,12 +35,16 @@ describe('wrapBuild', function() {
     expect(beforeSpyFunc.callCount).to.equal(0);
     expect(afterSpyFunc.callCount).to.equal(0);
 
-    return wrapBuild(emptyFixturePath, beforeSpyFunc, afterSpyFunc).then(function(results) {
-      expect(beforeSpyFunc.callCount).to.equal(1);
-      expect(afterSpyFunc.callCount).to.equal(1);
-      expect(afterSpyFunc.calledWith(sinon.match.string)).to.be.true;
+    var uselessPlugin = new UselessPlugin(emptyFixturePath, {
+      hook: duringSpyFunc
+    });
 
-      sinon.assert.callOrder(beforeSpyFunc, afterSpyFunc);
+    return wrapBuild(uselessPlugin, beforeSpyFunc, afterSpyFunc).then(function(results) {
+      expect(beforeSpyFunc.callCount).to.equal(1);
+      expect(duringSpyFunc.callCount).to.equal(1);
+      expect(afterSpyFunc.callCount).to.equal(1);
+      sinon.assert.callOrder(beforeSpyFunc, duringSpyFunc);
+      sinon.assert.callOrder(duringSpyFunc, afterSpyFunc);
     });
   });
 });
