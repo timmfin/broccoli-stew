@@ -22,9 +22,9 @@ describe('map', function() {
   var map = makeTestHelper({
     subject: _map,
     fixturePath: fixturePath,
-    filter: function(paths, inputTree) {
+    filter: function(paths, inputNode) {
       return paths.filter(function(p) { return !/\/$/.test(p); }).reduce(function(files, p) {
-               files[p] = fs.readFileSync(path.join(inputTree.directory, p)).toString();
+               files[p] = fs.readFileSync(path.join(inputNode.outputPath, p)).toString();
                return files;
              }, {});
     }
