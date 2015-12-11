@@ -26,6 +26,7 @@
     "broccoli-funnel": "^0.2.13",
     "broccoli-merge-trees": "^1.0.0",
     "broccoli-persistent-filter": "^1.1.6",
+    "broccoli-quick-plugin": "0.1.0",
     "chalk": "^0.5.1",
     "debug": "^2.1.0",
     "fs-extra": "^0.13.0",
